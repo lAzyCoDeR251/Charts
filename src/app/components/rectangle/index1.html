@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lightweight Charts - Rectangle Drawing Tool Plugin Example</title>
+
+    <style>
+      #toolbar {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding-inline-start: 10px;
+        box-sizing: border-box;
+        padding: 10px;
+        background-color: rgba(224, 227, 235, 1);
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      #chart {
+        height: 400px;
+        width: 500px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="toolbar" class="column"></div>
+    <div id="chart"></div>
+    <div id="description">
+      <h1>Rectangle Drawing Tool</h1>
+      <p>
+        A simple drawing tool for rectangles. Click on the icon in the top left
+        corner to activate drawing mode, and then click on the chart to define
+        the top left and bottom right corners of a rectangle. The color can be
+        changed using the color picker in the top toolbar.
+      </p>
+    </div>
+    <script>
+      // Import the data generation function from your script
+      import { d as generateData } from "./sample-data-c7d89ab8.js";
+
+      // Generate some data
+      const data = generateData();
+
+      // Create a chart
+      const chart = LightweightCharts.createChart(
+        document.getElementById("chart"),
+        {
+          /* options */
+        }
+      );
+
+      // Create a candlestick series
+      const candlestickSeries = chart.addCandlestickSeries();
+
+      // Set the data for your series
+      candlestickSeries.setData(data);
+    </script>
+
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="18-fcf079e0.js" type="module" crossorigin></script>
+    <!-- <script
+      crossorigin
+      src="lightweight-charts.production-891e1a8f.js"
+    ></script> -->
+    <!-- <script crossorigin src="sample-data-c7d89ab8.js"></script> -->
+    <!-- <script crossorigin src="plugin-base-a12dadc8.js"></script> -->
+    <!-- <script crossorigin src="positions-0a54307c.js"></script> -->
+    <script src="lightweight-charts-bf4c4717.css"></script>
+  </body>
+</html>
