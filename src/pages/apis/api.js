@@ -30,7 +30,14 @@ const LightWeightChartAPI = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-
+        const response = await axios.request({
+          method: "GET",
+          url: "https://yahoo-finance127.p.rapidapi.com/historic/tcs.ns/1d/3d",
+          headers: {
+            "X-RapidAPI-Key": "2c1d93c14dmshcabf7c3bc305e7fp1ba0b4jsn3b1d3df0e4ed", // Replace with your actual API key
+            "X-RapidAPI-Host": "yahoo-finance127.p.rapidapi.com",
+          },
+        });
 
         const processedData = processChartData(response.data);
         setChartData(processedData);

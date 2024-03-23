@@ -34,7 +34,14 @@ const LightWeightChart = () => {
         setIsLoading(true);
         const response = await axios.request({
           method: "GET",
-          
+          // url: `https://yahoo-finance127.p.rapidapi.com/historic/${selectedResult}/1d/2000d`,
+          url: `https://yahoo-finance127.p.rapidapi.com/historic/tcs.ns/1d/2000d`,
+          headers: {
+            "X-RapidAPI-Key":
+              "abd9d4cad7mshaf985f2e231dfa0p193642jsn38ce770626fa",
+            // "X-RapidAPI-Key": "415347fdacmsh80e2f6b6508f47bp123ba3jsn6db232b7306e",
+            // "X-RapidAPI-Key": "abd9d4cad7mshaf985f2e231dfa0p193642jsn38ce770626fa",
+            "X-RapidAPI-Host": "yahoo-finance127.p.rapidapi.com",
           },
         });
         setData(response.data);
@@ -139,6 +146,11 @@ const LightWeightChart = () => {
   const takeSnapshot = () => {
     const chartContainer = containerRef.current; // Get the chart container
     const visibleRange = chart.current.timeScale().getVisibleRange();
+
+    const currentDate = new Date();
+    const pastDate = new Date();
+    pastDate.setDate(currentDate.getDate() - 349); // Set the date to 349 days ago
+
     // Use html2canvas to capture the chart container
     html2canvas(chartContainer, {
       useCORS: true, // Adjust if needed for cross-origin resources
@@ -160,10 +172,22 @@ const LightWeightChart = () => {
         time: new Date(timestamp * 1000).toISOString().split("T")[0],
         open: data.indicators.quote[0].open[index],
         high: data.indicators.quote[0].high[index],
-        low: data.indicators.quote[0].low[index], 
+        low: data.indicators.quote[0].low[index],
         close: data.indicators.quote[0].close[index],
         volume: data.indicators.quote[0].volume[index],
+        adj_close: data.indicators.adjclose[0].adjclose[index],
       }));
+
+      // const fullData = data.timestamp
+      //   .map((timestamp, index) => ({
+      //     time: new Date(timestamp * 1000).toISOString().split("T")[0],
+      //     open: data.indicators.quote[0].open[index],
+      //     high: data.indicators.quote[0].high[index],
+      //     low: data.indicators.quote[0].low[index],
+      //     close: data.indicators.quote[0].close[index],
+      //     volume: data.indicators.quote[0].volume[index],
+      //   }))
+      //   .filter((dataPoint) => new Date(dataPoint.time) >= pastDate);
       console.log("this is full data", fullData);
 
       // Send image data to the backend as a Data URL using Axios
@@ -270,7 +294,7 @@ const LightWeightChart = () => {
 
   return (
     <div className="w-full">
-      <div className="w-full h-10 border border-black p-2 bg-white flex justify-between">
+      <div className="w-full h-10 border-[1px] border-black p-2  rounded-sm shadow-lg  bg-white flex justify-between">
         {/* {searchStock} */}
         <SearchStocks />
         {snapshotButton}
@@ -314,13 +338,35 @@ const LightWeightChart = () => {
           />
         )}
       </div>
-      <div className="w-full h-16 border border-black p-2 bg-white flex justify-between items-center">
-        <div>Note:</div>
+      <div className="w-full h-16 border border-gray-500 mt-1 p-2 rounded-lg shadow-lg shadow-black bg-white flex justify-between items-center">
+        {snapshotData && (
+          <div
+            className={`pl-10 font-bold ${
+              snapshotData.predicted_stock === "Bullish sentiment"
+                ? "text-green-500"
+                : snapshotData.predicted_stock === "Bearish sentiment"
+                ? "text-red-500"
+                : ""
+            }`}
+          >
+            {" "}
+            Based on the analysis of historic data, the market sentiment is:{" "}
+            {snapshotData.predicted_stock}
+          </div>
+        )}
         <div>
           <Clock time={now.getTime()} />
         </div>
       </div>
-      <div ref={myRef} className="flex justify-center my-20">
+      <div ref={myRef} className="flex flex-col justify-center my-20">
+        {snapshotData && (
+          <div className="w-5/6 h-4/6 mx-auto my-5">
+            <img
+              src={`data:image/png;base64,${snapshotData.graph}`}
+              alt="graph"
+            />
+          </div>
+        )}
         {snapshotData &&
           snapshotData.bounding_boxes &&
           snapshotData.bounding_boxes.length > 0 && (
