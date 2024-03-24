@@ -15,9 +15,7 @@ const SearchStocks = () => {
       method: "GET",
       // url: `https://yahoo-finance127.p.rapidapi.com/search/${term}`,
       headers: {
-          // 'X-RapidAPI-Key': '2c1d93c14dmshcabf7c3bc305e7fp1ba0b4jsn3b1d3df0e4ed',
-          'X-RapidAPI-Key': '415347fdacmsh80e2f6b6508f47bp123ba3jsn6db232b7306e',
-        // "X-RapidAPI-Key": "abd9d4cad7mshaf985f2e231dfa0p193642jsn38ce770626fa",
+        "X-RapidAPI-Key": "abd9d4cad7mshaf985f2e231dfa0p193642jsn38ce770626fa",
         "X-RapidAPI-Host": "yahoo-finance127.p.rapidapi.com",
       },
     };

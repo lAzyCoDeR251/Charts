@@ -28,32 +28,6 @@ const TopContainerChart = () => {
             </span>
             <div className="px-2">EURUSD</div>
           </button>
-          {/* <button
-            aria-label="Compare or Add Symbol"
-            id="header-toolbar-compare"
-            tabindex="-1"
-            type="button"
-            class="button-OhqNVIYA button-ptpAHg8E withoutText-ptpAHg8E button-GwQQdU8S apply-common-tooltip isInteractive-GwQQdU8S accessible-GwQQdU8S"
-            data-tooltip="Compare or Add Symbol"
-          >
-            <span class="icon-GwQQdU8S" role="img">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 28 28"
-                width="28"
-                height="28"
-              >
-                <path
-                  fill="currentColor"
-                  d="M13.5 6a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17zM4 14.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z"
-                ></path>
-                <path
-                  fill="currentColor"
-                  d="M9 14h4v-4h1v4h4v1h-4v4h-1v-4H9v-1z"
-                ></path>
-              </svg>
-            </span>
-          </button> */}
         </div>
 
         <div className="">
