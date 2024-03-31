@@ -1,19 +1,19 @@
-  {
-    "name": "Chartingo",
-    "version": 2,
-    "builds": [
-       {
+{
+  "name": "Chartingo",
+  "version": 2,
+  "builds": [
+    {
       "src": "api/main.py",
       "use": "@vercel/python",
       "config": {
         "runtime": "python3.9"
       }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "/api/main.py"
-      }
-    ]
-  }
-  
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/main.py"
+    }
+  ]
+}
