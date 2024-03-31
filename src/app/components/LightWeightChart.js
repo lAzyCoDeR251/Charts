@@ -102,40 +102,8 @@ const LightWeightChart = () => {
         class: "Head and Shoulders",
       },
     ];
-    bounding_boxes.forEach((box) => {
-      const left = chart.current
-        .timeScale()
-        .timeToCoordinate(new Date(box.time_start));
-      const maxPrice = Math.max(
-        ...chartData.current.map((dataPoint) => dataPoint.high)
-      );
-      const minPrice = Math.min(
-        ...chartData.current.map((dataPoint) => dataPoint.low)
-      );
-      const priceRange = maxPrice - minPrice;
-      const top =
-        containerRef.current.offsetHeight *
-        (1 - (box.value_end - minPrice) / priceRange);
-      const width =
-        chart.current.timeScale().timeToCoordinate(new Date(box.time_end)) -
-        left;
-      const height =
-        containerRef.current.offsetHeight *
-          (1 - (box.value_start - minPrice) / priceRange) -
-        top;
 
-      const rectangle = document.createElement("div");
-      rectangle.className = "rectangle-overlay";
-      rectangle.style.position = "absolute";
-      rectangle.style.top = "100px"; // Adjust top position as needed
-      rectangle.style.left = "50px"; // Adjust left position as needed
-      rectangle.style.width = "200px"; // Adjust width as needed
-      rectangle.style.height = "100px"; // Adjust height as needed
-      rectangle.style.backgroundColor = "rgba(255, 0, 0, 0.3)"; // Adjust color and transparency
-      rectangle.style.border = "1px solid blue"; // Adjust border style
 
-      // containerRef.current.appendChild(rectangle);
-    });
     chart.current.timeScale().fitContent();
 
     return () => {
@@ -166,7 +134,7 @@ const LightWeightChart = () => {
       );
 
       // Print the visible data to the console
-      console.log("this is visible data", visibleData);
+      // console.log("this is visible data", visibleData);
 
       const fullData = data.timestamp.map((timestamp, index) => ({
         time: new Date(timestamp * 1000).toISOString().split("T")[0],
@@ -188,25 +156,26 @@ const LightWeightChart = () => {
       //     volume: data.indicators.quote[0].volume[index],
       //   }))
       //   .filter((dataPoint) => new Date(dataPoint.time) >= pastDate);
-      console.log("this is full data", fullData);
+      // console.log("this is full data", fullData);
 
       // Send image data to the backend as a Data URL using Axios
       axios
         .post(
           "http://127.0.0.1:8000/api/upload",
+          // `${window.location.origin}/api/upload`,
           { image: imgData, data: visibleData, fdata: fullData },
           {
             // Log the data before sending the request
             onUploadProgress: (progressEvent) => {
-              console.log("Image Data:", imgData); // Log image data
-              console.log("Visible Data:", visibleData); // Log visible data
+              // console.log("Image Data:", imgData); // Log image data
+              // console.log("Visible Data:", visibleData); // Log visible data
             },
           }
         )
         .then((response) => {
           // Handle response from backend
           setSnapshotData(response.data);
-          console.log(response.data);
+          // console.log(response.data);
           console.log("Success");
         })
         .catch((error) => {
@@ -339,21 +308,23 @@ const LightWeightChart = () => {
         )}
       </div>
       <div className="w-full h-16 border border-gray-500 mt-1 p-2 rounded-lg shadow-lg shadow-black bg-white flex justify-between items-center">
-        {snapshotData && (
-          <div
-            className={`pl-10 font-bold ${
-              snapshotData.predicted_stock === "Bullish sentiment"
-                ? "text-green-500"
-                : snapshotData.predicted_stock === "Bearish sentiment"
-                ? "text-red-500"
-                : ""
-            }`}
-          >
-            {" "}
-            Based on the analysis of historic data, the market sentiment is:{" "}
-            {snapshotData.predicted_stock}
-          </div>
-        )}
+        <div>
+          {snapshotData && (
+            <div
+              className={`pl-10 font-bold ${
+                snapshotData.predicted_stock === "Bullish sentiment"
+                  ? "text-green-500"
+                  : snapshotData.predicted_stock === "Bearish sentiment"
+                  ? "text-red-500"
+                  : ""
+              }`}
+            >
+              {" "}
+              Based on the analysis of historic data, the market sentiment is:{" "}
+              {snapshotData.predicted_stock}
+            </div>
+          )}
+        </div>
         <div>
           <Clock time={now.getTime()} />
         </div>

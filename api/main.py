@@ -11,13 +11,13 @@ from io import BytesIO
 from typing import List, Dict
 import math
 from datetime import datetime, timedelta
-import pandas as pd
+import pandas as pd   
 from sklearn.preprocessing import MinMaxScaler, RobustScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error
-from model_functions import calculate_r2, calculate_mape, plot_predictions
-from LSTM_GRU import StockLSTM
-from Feature_generator import calculate_indicators
-from datetime import datetime, timedelta
+from api.model_functions import calculate_r2, calculate_mape, plot_predictions
+from api.LSTM_GRU import StockLSTM
+from api.Feature_generator import calculate_indicators
+from datetime import datetime, timedelta 
 import torch
 import torch.nn as nn
 import numpy as np
@@ -38,7 +38,7 @@ app.add_middleware(
 
 # Load your YOLO model
 #model = YOLO('E:/Final-Year-Project/CNN-Model/CNN model/best.pt')
-model = YOLO('best.pt')
+model = YOLO('api/best.pt')
 
 # Define a request body model for uploading images
 class ImageInput(BaseModel):
@@ -196,7 +196,7 @@ async def upload_image(allData: ImageInput):  # Change this to accept an ImageIn
     try:
         print("Loading model...")
         lstm_model = StockLSTM(input_size, hidden_size, num_layers, output_size, dropout_prob)
-        lstm_model.load_state_dict(torch.load('LSTM_state.pt'))
+        lstm_model.load_state_dict(torch.load('api/LSTM_state.pt'))
         print("Model loaded successfully.")
     except Exception as e:
         print("Error loading model:", e)
